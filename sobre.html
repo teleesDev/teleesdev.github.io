@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre | Diário de Computação Visual</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E3AFF'/%3E%3Ctext x='16' y='21' font-family='Arial' font-weight='900' font-size='13' fill='white' text-anchor='middle'%3ECV%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0A0A0A; --paper:#FFFFFF; --tint:#F4F5F9; --blue:#1E3AFF;
+    --muted:#666B78; --body-light:#24262B;
+    --line: rgba(11,11,16,0.12);
+    --maxw: 720px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--tint); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  h1{ font-family:'Archivo',sans-serif; font-weight:900; text-transform:uppercase; line-height:1.05; letter-spacing:-0.015em; }
+  :focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; display:inline-flex; align-items:center; gap:9px; color:var(--muted); }
+  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+  .badge{ display:inline-flex; align-items:center; background:var(--blue); color:#fff; font-family:'Archivo',sans-serif; font-weight:800; font-size:13px; padding:7px 12px; border-radius:8px; line-height:1; white-space:nowrap; }
+
+  header{ background:rgba(244,245,249,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; height:76px; gap:16px; }
+  .back-link{ font-family:'Space Mono',monospace; font-size:12.5px; color:var(--muted); }
+  .back-link:hover{ color:var(--ink); }
+
+  .post-top{ margin:52px 0 22px; }
+  h1{ font-size:clamp(28px,4.4vw,42px); margin-bottom:28px; max-width:16ch; }
+  p.body{ font-size:17px; line-height:1.8; color:var(--body-light); max-width:64ch; text-align:justify; hyphens:auto; margin-bottom:22px; }
+
+  .info-row{
+    display:flex; flex-wrap:wrap; gap:8px 22px;
+    font-family:'Space Mono',monospace; font-size:12.5px; color:var(--muted);
+    margin-top:36px; padding-top:22px; border-top:1px solid var(--line);
+  }
+  .info-row b{ color:var(--ink); font-weight:700; }
+
+  .post-foot{ padding-bottom:80px; }
+
+  footer{ background:var(--ink); color:#fff; padding:40px 0; }
+  .footer-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  footer p{ font-family:'Space Mono',monospace; font-size:11.5px; color:#9BA0AC; }
+
+  @media (max-width:640px){
+    .footer-inner{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="badge">Computação Visual</a>
+      <a href="index.html" class="back-link">← todos os posts</a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="post-top">
+      <span class="eyebrow">sobre</span>
+    </div>
+
+    <h1>Sobre este diário</h1>
+
+    <p class="body">Este espaço nasceu como parte da disciplina de Computação Visual, no curso de Ciência da Computação da Mackenzie. A proposta é simples: registrar, aula a aula, o que estou aprendendo — desde a primeira impressão sobre do que a matéria realmente trata até os detalhes técnicos que vão aparecendo pelo caminho.</p>
+
+    <p class="body">Computação Visual reúne áreas que eu não esperava ver juntas: programação gráfica, visão computacional e processamento de imagens digitais — desde como o olho humano enxerga luz e cor até como um sensor transforma isso em pixels. Cada post aqui é um recorte desse processo.</p>
+
+    <p class="body">As publicações seguem o calendário da disciplina: pelo menos uma nova a cada quinze dias, ao longo do semestre. Quem escreve é Guilherme Teles, aluno do curso, sob orientação do Prof. André Kishimoto.</p>
+
+    <div class="info-row">
+      <span>Aluno — <b>Guilherme Teles</b></span>
+      <span>Prof. — <b>André Kishimoto</b></span>
+      <span>Turma — <b>07N|2026</b></span>
+    </div>
+
+    <div class="post-foot"></div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="badge">Computação Visual</span>
+      <p>Blog da disciplina de Computação Visual · Ciência da Computação · Mackenzie · 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>

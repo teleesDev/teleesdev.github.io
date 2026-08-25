@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diário de Computação Visual - Teles</title>
+<meta name="description" content="Registros da disciplina de Computação Visual — Ciência da Computação, Mackenzie.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E3AFF'/%3E%3Ctext x='16' y='21' font-family='Arial' font-weight='900' font-size='13' fill='white' text-anchor='middle'%3ECV%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0A0A0A;
+    --paper:#FFFFFF;
+    --tint:#F4F5F9;
+    --blue:#1E3AFF;
+    --muted:#666B78;
+    --muted-dark:#9BA0AC;
+    --line: rgba(11,11,16,0.12);
+    --maxw: 900px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  h1,h2{ font-family:'Archivo',sans-serif; font-weight:900; text-transform:uppercase; line-height:1.05; letter-spacing:-0.015em; }
+  .hl{ color:var(--blue); }
+  :focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+  .eyebrow{
+    font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:9px; color:var(--muted);
+  }
+  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+
+  .badge{
+    display:inline-flex; align-items:center; background:var(--blue); color:#fff;
+    font-family:'Archivo',sans-serif; font-weight:800; font-size:13px; letter-spacing:0.02em;
+    padding:7px 12px; border-radius:8px; line-height:1; white-space:nowrap;
+  }
+
+  /* ===== header ===== */
+  header{ position:sticky; top:0; z-index:10; background:rgba(255,255,255,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; height:76px; gap:20px; }
+  .nav-links{ display:flex; gap:30px; list-style:none; }
+  .nav-links a{ font-size:14.5px; font-weight:500; padding-bottom:3px; border-bottom:1.5px solid transparent; }
+  .nav-links a:hover{ border-color:var(--blue); }
+
+  /* ===== hero ===== */
+  .hero{ padding:64px 0 56px; }
+  .hero h1{ font-size:clamp(30px,5vw,46px); max-width:14ch; }
+  .hero p.lead{ font-size:16.5px; line-height:1.65; color:var(--muted); max-width:52ch; margin:20px 0 26px; text-align:justify; hyphens:auto; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:8px 18px; font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); padding-top:20px; border-top:1px solid var(--line); }
+  .meta-row b{ color:var(--ink); font-weight:700; }
+
+  /* ===== posts list ===== */
+  .posts{ padding:10px 0 90px; }
+  .posts-head{ display:flex; align-items:baseline; justify-content:space-between; padding-bottom:26px; border-bottom:1px solid var(--ink); margin-bottom:6px; }
+  .posts-head h2{ font-size:clamp(34px,5vw,52px); }
+  .posts-head .year{ font-family:'Space Mono',monospace; font-size:14px; color:var(--muted); }
+
+  .post-row{ display:grid; grid-template-columns:0.8fr 1.1fr; gap:40px; align-items:center; padding:44px 0; border-bottom:1px solid var(--line); }
+  .post-thumb{ aspect-ratio:4/3; border-radius:18px; overflow:hidden; background:var(--tint); }
+  .post-thumb img{ width:100%; height:100%; object-fit:cover; }
+
+  .post-row-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .post-num{ font-family:'Space Mono',monospace; font-size:12.5px; color:var(--muted); }
+  .post-title{ font-size:clamp(22px,3vw,30px); margin-bottom:12px; }
+  .post-excerpt{ font-size:15.5px; line-height:1.6; color:var(--muted); max-width:46ch; margin-bottom:18px; text-align:justify; hyphens:auto; }
+  .post-link{ font-size:14.5px; font-weight:700; color:var(--blue); display:inline-flex; align-items:center; gap:6px; padding-bottom:2px; border-bottom:1.5px solid var(--blue); }
+  .post-link:hover{ gap:10px; }
+  .post-link svg{ transition:transform .15s ease; }
+
+  /* ===== footer ===== */
+  footer{ background:var(--ink); color:#fff; padding:40px 0; }
+  .footer-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  footer p{ font-family:'Space Mono',monospace; font-size:11.5px; color:var(--muted-dark); }
+
+  @media (max-width:680px){
+    .post-row{ grid-template-columns:1fr; gap:20px; padding:32px 0; }
+    .post-thumb{ aspect-ratio:16/9; }
+    .footer-inner{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="badge">Computação Visual</a>
+      <ul class="nav-links">
+        <li><a href="index.html#posts">Posts</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">ciência da computação · mackenzie</span>
+      <h1 style="margin-top:16px;">O que a máquina precisa <span class="hl">ver</span> primeiro.</h1>
+      <p class="lead">Diário da disciplina de Computação Visual: o que eu esperava encontrar, o que estou descobrindo aula a aula, e as anotações que valem a pena guardar.</p>
+      <div class="meta-row">
+        <span>Aluno — <b>Guilherme Teles</b></span>
+        <span>Prof. — <b>André Kishimoto</b></span>
+        <span>Turma — <b>07N|2026</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="posts" id="posts">
+    <div class="wrap">
+      <div class="posts-head">
+        <h2>Posts</h2>
+        <span class="year">2026</span>
+      </div>
+
+      <article class="post-row">
+        <div class="post-thumb">
+          <img src="https://images.unsplash.com/photo-1644158767445-79390e879319?auto=format&fit=crop&w=900&q=80" alt="Renderização 3D em wireframe azul">
+        </div>
+        <div>
+          <div class="post-row-top">
+            <span class="post-num">#001</span>
+            <span class="eyebrow">aula 1</span>
+          </div>
+          <h3 class="post-title">O que eu achava que era Computação Visual</h3>
+          <p class="post-excerpt">O que eu esperava encontrar na disciplina — e o que entendi que vamos realmente estudar.</p>
+          <a href="aula-1.html" target="_blank" rel="noopener" class="post-link">Ler post <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </article>
+
+      <article class="post-row">
+        <div class="post-thumb">
+          <img src="https://images.unsplash.com/flagged/photo-1562599838-8cc871c241a5?auto=format&fit=crop&w=900&q=80" alt="Grade de subpixels RGB em close-up">
+        </div>
+        <div>
+          <div class="post-row-top">
+            <span class="post-num">#002</span>
+            <span class="eyebrow">aula 2</span>
+          </div>
+          <h3 class="post-title">RGB e a imagem da televisão</h3>
+          <p class="post-excerpt">Como a mistura de vermelho, verde e azul em milhões de subpixels forma a imagem que vemos na tela.</p>
+          <a href="aula-2.html" target="_blank" rel="noopener" class="post-link">Ler post <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="badge">Computação Visual</span>
+      <p>Blog da disciplina de Computação Visual · Ciência da Computação · Mackenzie · 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
