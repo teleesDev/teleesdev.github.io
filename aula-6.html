@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 6: Detecção de bordas | Diário de Computação Visual</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231E3AFF'/%3E%3Ctext x='16' y='21' font-family='Arial' font-weight='900' font-size='13' fill='white' text-anchor='middle'%3ECV%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#0A0A0A; --paper:#FFFFFF; --tint:#F4F5F9; --blue:#1E3AFF;
+    --muted:#666B78; --body-light:#24262B;
+    --line: rgba(11,11,16,0.12);
+    --maxw: 720px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{ background:var(--tint); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  h1{ font-family:'Archivo',sans-serif; font-weight:900; text-transform:uppercase; line-height:1.05; letter-spacing:-0.015em; }
+  :focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+  .eyebrow{ font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; display:inline-flex; align-items:center; gap:9px; color:var(--muted); }
+  .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+  .badge{ display:inline-flex; align-items:center; background:var(--blue); color:#fff; font-family:'Archivo',sans-serif; font-weight:800; font-size:13px; padding:7px 12px; border-radius:8px; line-height:1; white-space:nowrap; }
+  .coord{ display:inline-flex; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#fff; background:var(--blue); padding:5px 10px; border-radius:6px; }
+
+  header{ background:rgba(244,245,249,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; height:76px; gap:16px; }
+  .back-link{ font-family:'Space Mono',monospace; font-size:12.5px; color:var(--muted); }
+  .back-link:hover{ color:var(--ink); }
+
+  .post-hero-img{ width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:20px; margin:44px 0 34px; }
+
+  .post-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+  h1{ font-size:clamp(28px,4.4vw,42px); margin-bottom:24px; }
+  p.body{ font-size:17px; line-height:1.8; color:var(--body-light); max-width:64ch; text-align:justify; hyphens:auto; margin-bottom:22px; }
+
+  .post-foot{ margin-top:30px; padding-bottom:80px; }
+
+  footer{ background:var(--ink); color:#fff; padding:40px 0; }
+  .footer-inner{ max-width:var(--maxw); margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  footer p{ font-family:'Space Mono',monospace; font-size:11.5px; color:#9BA0AC; }
+
+  @media (max-width:640px){
+    .post-top{ flex-direction:column; align-items:flex-start; gap:14px; }
+    .footer-inner{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-inner">
+      <a href="index.html" class="badge">Computação Visual</a>
+      <a href="index.html" class="back-link">← todos os posts</a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <img class="post-hero-img" src="aula-6.jpg" alt="Comparação entre uma imagem em tons de cinza e a magnitude do gradiente dela, com os contornos realçados">
+
+    <div class="post-top">
+      <span class="eyebrow">aula 6</span>
+      <span class="coord">#006</span>
+    </div>
+
+    <h1>Detecção de bordas: onde a imagem muda de repente</h1>
+
+    <p class="body">Essa aula foi sobre detecção de bordas, que no fundo é procurar as mudanças bruscas de intensidade da imagem. A ideia é que boa parte da informação de forma está nesses contornos, tanto que o desenho de linhas de um artista já é o suficiente pra gente reconhecer o que está ali. Uma borda é a fronteira entre duas regiões com níveis de cinza bem diferentes, e olhando a imagem como uma função, ela parece um penhasco: o valor cai ou sobe de uma hora pra outra.</p>
+
+    <p class="body">Pra achar essas mudanças entra a derivada. A primeira derivada fica grande justamente onde a intensidade varia rápido, e como a imagem é discreta, dá pra calcular isso com a diferença entre vizinhos, do tipo f(x+1) menos f(x). Juntando a variação na horizontal com a vertical, você tem o gradiente, que é um vetor. A magnitude dele mostra a força da borda e a orientação aponta pra onde a intensidade muda mais rápido, sempre perpendicular à borda.</p>
+
+    <p class="body">Na prática isso vira um filtro, aquelas máscaras pequenas que passam pela imagem calculando o novo valor de cada pixel a partir dos vizinhos. Tem o de Roberts, que é 2x2 e realça mais as bordas inclinadas, o de Prewitt, que é 3x3, e o de Sobel, que é o mais conhecido e dá peso 2 pros vizinhos do meio, então suaviza um pouco enquanto deriva.</p>
+
+    <p class="body">O problema é que a derivada também amplifica ruído. Um pixel fora do tom dos vizinhos vira um pico grande, e o detector acaba enxergando borda onde não tem nada. A saída é suavizar antes de derivar, normalmente com um filtro gaussiano. E dá pra juntar as duas etapas, derivando a própria gaussiana e passando esse filtro de uma vez só na imagem.</p>
+
+    <p class="body">Só que isso tem um preço. Quanto mais suavização, menos ruído, mas as bordas ficam mais borradas e menos precisas. No fim, o tamanho do filtro define a escala do que você quer enxergar: o detalhe fino ou só o contorno grande. Daí em diante o material entra no detector de Canny, que junta essas ideias todas em um algoritmo só, e deve ser o assunto da próxima aula.</p>
+
+    <div class="post-foot"></div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <a> </a>
+      <p>Blog da disciplina de Computação Visual · Ciência da Computação · Mackenzie · 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
